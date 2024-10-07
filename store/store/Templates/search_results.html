@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+
+<h1>Résultats de la recherche pour "{{ query }}" :</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nom du produit</th>
+      <th scope="col">Prix</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if produits %}
+    {% for produit in produits %}
+      <tr>
+        <td>{{ produit.id }}</td>
+        <td>{{ produit.titre }}</td>
+        <td>{{ produit.price }} $</td>
+        <td>
+          <div class="btn-group" role="group">
+            <a href="{% url 'page_detail' produit.id %}" class="btn btn-primary">Détails du produit</a>
+          </div>
+        </td>
+      </tr>
+    {% endfor %}
+    {% else %}
+    <p>Aucun produit ne correspond à votre recherche.</p>
+    {% endif %}
+  </tbody>
+</table>
+
+{% endblock %}
+

@@ -1,26 +1,43 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'index' %}">Apple-Store</a>
+        <!-- Brand -->
+        <a class="navbar-bank" href="{% url 'index' %}">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple Logo" width="25" height="25">
+        </a>        
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
+        <!-- Navbar Links and Categories -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Liens de navigation principaux -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Accueil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'listProducts' %}">Produits</a> 
+                    <a class="nav-link" href="{% url 'listProducts' %}">store</a> 
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'about' %}">À propos</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/admin/">Admin</a>
+
+                <!-- Catégories Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Catégories
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% for category in categories %}
+                        <li><a class="dropdown-item" href="{% url 'products_by_category' category.id %}">{{ category.name }}</a></li>
+                        {% endfor %}
+                    </ul>
                 </li>
+            </ul>
+
+            <!-- Cart Icon with Count -->
+            <ul class="navbar-nav me-3">
                 <li class="nav-item">
-                    <a class="btn btn-primary position-relative" href="{% url 'cart' %}"> 
+                    <a class="btn btn-outline-light position-relative" href="{% url 'cart' %}">
                         <i class="bi bi-cart4"></i>
                         <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             {{ request.session.cart_count|default:0 }}
@@ -28,25 +45,36 @@
                         </span>
                     </a>
                 </li>
-
-                     <!-- Catégories dynamiques -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Catégories
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% for category in categories %}
-                    <li><a class="dropdown-item" href="{% url 'products_by_category' category.id %}">{{ category.name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </li>
             </ul>
-            
-            <!-- Barre de recherche -->
+
+            <!-- Search Form -->
             <form class="d-flex" role="search" method="GET" action="{% url 'search_results' %}">
                 <input class="form-control me-2" name="query" type="search" placeholder="Rechercher un produit..." aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Rechercher</button>
             </form>
+
+            <!-- Connexion / Déconnexion -->
+<ul class="navbar-nav ms-3">
+    {% if user.is_authenticated %}
+        <span class="navbar-text me-3">Bienvenue, {{ user.username }}!</span>
+        <li class="nav-item">
+            <!-- Logout link -->
+            <a class="nav-link" href="{% url 'logout' %}">Déconnexion</a>
+        </li>
+    {% else %}
+        <li class="nav-item">
+            <!-- Login link -->
+            <a class="nav-link" href="{% url 'login' %}">Connexion</a>
+        </li>
+    {% endif %}
+</ul>
+
+            <!-- Admin Link (if applicable) -->
+            <ul class="navbar-nav ms-3">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/admin/">Admin</a>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>

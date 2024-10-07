@@ -1,32 +1,32 @@
 {% extends 'base.html' %}
+
 {% block title %}Détails du produit{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-5 mb-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header text-center">
-                    <h2>{{ produit.name }}</h2>
+                    <h2>{{ product.name }}</h2>
                 </div>
                 <div class="col-md-6">
                     <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
                 </div>
                 <div class="card-body text-center">
-                    <p><strong>Description :</strong> {{ produit.description }}</p>
-                    <p><strong>Prix :</strong> {{ produit.price }} $</p>
-                    <p><strong>Quantité :</strong> {{ produit.quantity }}</p>
+                    <p><strong>Description :</strong> {{ product.description }}</p>
+                    <p><strong>Prix :</strong> {{ product.price }} $</p>
+                    <p><strong>Quantité :</strong> {{ product.stock }}</p>
                 </div>
                 <div class="card-footer text-center">
-                    <button class="btn btn-success">Ajouter au panier</button>
-                    <div class="btn-group" role="group">
-                        <a href="{% url 'listeProduits' %}" class="btn btn-primary">Retour</a>
-                    </div>
+                    <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                        {% csrf_token %}
+                        <button class="btn btn-success">Ajouter au panier</button>
+                    </form>
+                    <a href="{% url 'listProducts' %}" class="btn btn-primary mt-3">Retour aux produits</a>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-       
     </div>
 </div>
 {% endblock %}

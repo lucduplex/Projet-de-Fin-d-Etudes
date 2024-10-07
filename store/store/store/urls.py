@@ -24,7 +24,9 @@ urlpatterns = [
     # Panier et gestion des produits dans le panier
     path('cart/', views.cart, name='cart'),
     path('add_to_cart/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
-    path('supprimer_product/<int:product_id>/', views.supprimer_product, name='supprimer_product'), 
+    path('delete_product/<int:product_id>/', views.delete_product, name='delete_product'), 
+    path('login/', views.user_login, name='login'),
+    path('logout/', views.user_logout, name='logout'),
 
     # Inscription
     path('register/', views.register, name='register'),

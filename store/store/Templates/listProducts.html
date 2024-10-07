@@ -1,17 +1,20 @@
 {% extends 'base.html' %}
 
-{% block title %}Produits - {{ category.name }}{% endblock %}
+{% block title %}Nos Produits{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Produits dans la catégorie : {{ category.name }}</h1>
-    <div class="row gy-4">
+    <!-- Section for Displaying Products -->
+    <section class="text-center py-5 mb-4 bg-light">
+        <h1 class="display-4 mb-4">Découvrez les produits Apple</h1>
+        <p class="lead text-muted">Explorez notre sélection exclusive de produits Apple.</p>
+    </section>
+
+    <div class="row mb-4 gy-4">
         {% for product in products %}
-        <div class="col-md-4 d-flex align-items-stretch">
+        <div class="col-md-4  d-flex align-items-stretch">
             <div class="card border-0 shadow-sm h-100 text-center">
-                <div class="card-img-top-container">
-                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 300px; object-fit: cover;">
-                </div>
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 300px; object-fit: cover;">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">{{ product.name }}</h5>
                     <p class="card-text text-muted">{{ product.description|truncatewords:15 }}</p>
@@ -27,7 +30,7 @@
             </div>
         </div>
         {% empty %}
-        <p>Aucun produit disponible dans cette catégorie.</p>
+        <p class="text-center">Aucun produit disponible pour le moment.</p>
         {% endfor %}
     </div>
 </div>
