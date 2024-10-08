@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 /* Section iPad */
 .products-section {
     background-image: url("../images/ipad.jpg"); /* Image de fond pour la section iPad */
+=======
+.products-section {
+    background-image: url("../images/ipad.jpg"); /* Chemin relatif correct */
+>>>>>>> 19a707735cceaa6d6023cb179856f383260aedd9
     background-size: cover;
     background-position: center;
     height: 80vh;
@@ -15,7 +20,21 @@
 
 /* Section Mac */
 .products-section1 {
+<<<<<<< HEAD
     background-image: url("../images/mac.webp"); /* Image de fond pour la section Mac */
+=======
+    background-image: url("../images/mac.webp"); /* Chemin relatif correct */
+    background-size: cover;
+    background-position: center;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-section {
+    background-image: url("../images/iphone.jpg"); /* Chemin relatif correct */
+>>>>>>> 19a707735cceaa6d6023cb179856f383260aedd9
     background-size: cover;
     background-position: center;
     height: 80vh;
@@ -27,6 +46,7 @@
     transition: transform 0.3s, box-shadow 0.3s; /* Effets de transition */
 }
 
+<<<<<<< HEAD
 /* Section iPhone */
 .main-section {
     background-image: url("../images/iphone.jpg"); /* Image de fond pour la section iPhone */
@@ -89,4 +109,22 @@
         opacity: 1;
         transform: translateY(0);
     }
+=======
+.product-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.product-card:hover .overlay {
+    opacity: 1;
+}
+
+.btn-effect {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-effect:hover {
+    background-color: #000;
+    color: #fff;
+>>>>>>> 19a707735cceaa6d6023cb179856f383260aedd9
 }
