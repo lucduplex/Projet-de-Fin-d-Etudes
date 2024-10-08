@@ -1,50 +1,50 @@
 {% extends 'base.html' %}
- {%block content%}
-    <!-- Welcome Section -->
+
+{% block content %}
+    <!-- Section de bienvenue -->
     <section class="welcome-section text-center py-5 bg-light">
         <div class="container">
-            <h1 class="display-4 fw-bold">Bienvenue chez Apple Store</h1>
-            <p class="lead">Découvrez l'excellence de la technologie Apple. Explorez nos catégories de produits phares et trouvez celui qui vous convient le mieux.</p>
+            <h1 class="display-4 fw-bold" style="animation: fadeInUp 1s;">Bienvenue chez Apple Store</h1>
+            <p class="lead" style="max-width: 800px; margin: 0 auto; animation: fadeInUp 1.2s;">Découvrez l'excellence de la technologie Apple. Explorez nos catégories de produits phares et trouvez celui qui vous convient le mieux.</p>
         </div>
     </section>
 
-    <!-- Product Sections -->
+    <!-- Sections de produits avec effets de survol -->
     <div class="row mb-4 m-2 mt-4">
-        <!-- iPad Section -->
+        <!-- Section iPad -->
         <div class="col-md-6">
-            <section class="products-section text-center py-5 bg-light" style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <section class="products-section text-center py-5 bg-light" style="border-radius: 15px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); transition: transform 0.3s;">
                 <div class="container">
-                    <h2 class="display-5">IPad</h2>
-                    <p class="lead">L'iPad vous offre une puissance et une mobilité exceptionnelles. Explorez des modèles polyvalents et adaptés à tous vos besoins.</p>
-                    <a href="{% url 'products_by_category' 1 %}" class="btn btn-primary btn-lg">Voir les produits</a>
+                    <h2 class="display-5" style="animation: fadeInUp 1.4s;">iPad</h2>
+                    <p class="lead" style="animation: fadeInUp 1.6s;">L'iPad vous offre une puissance et une mobilité exceptionnelles. Explorez des modèles polyvalents et adaptés à tous vos besoins.</p>
+                    <a href="{% url 'products_by_category' 3 %}" class="btn btn-primary btn-lg shadow-lg" style="animation: fadeInUp 1.8s;">Voir les produits</a>
                 </div>
             </section>
         </div>
 
-        <!-- Mac Section -->
+        <!-- Section Mac -->
         <div class="col-md-6">
-            <section class="products-section1 text-center py-5 bg-light" style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <section class="products-section1 text-center py-5 bg-light" style="border-radius: 15px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); transition: transform 0.3s;">
                 <div class="container">
-                    <h2 class="display-5">Mac</h2>
-                    <p class="lead">Le Mac, synonyme de performance et de design. Découvrez une gamme d'ordinateurs parfaits pour tous vos projets créatifs et professionnels.</p>
-                    <a href="{% url 'products_by_category' 2 %}" class="btn btn-primary btn-lg">Voir les produits</a>
-
+                    <h2 class="display-5" style="animation: fadeInUp 1.4s;">Mac</h2>
+                    <p class="lead" style="animation: fadeInUp 1.6s;">Le Mac, synonyme de performance et de design. Découvrez une gamme d'ordinateurs parfaits pour tous vos projets créatifs et professionnels.</p>
+                    <a href="{% url 'products_by_category' 2 %}" class="btn btn-primary btn-lg shadow-lg" style="animation: fadeInUp 1.8s;">Voir les produits</a>
                 </div>
             </section>
         </div>
     </div>
 
-    <!-- Section pour la catégorie iPhone -->
-    <section class="main-section text-center mb-4" style=" background-position: center; color: white; height: 80vh; display: flex; justify-content: center; align-items: center; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+    <!-- Section iPhone avec image de fond et animation du texte -->
+    <section class="main-section text-center mb-4" style="color: white; height: 80vh; display: flex; justify-content: center; align-items: center; border-radius: 15px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);">
         <div class="container">
-            <div class="category-content">
-                <h2 class="display-3 fw-bold" style="letter-spacing: 2px;">IPhone</h2>
+            <div class="category-content" style="animation: fadeInUp 1.6s;">
+                <h2 class="display-3 fw-bold" style="letter-spacing: 2px;">iPhone</h2>
                 <p class="lead" style="font-size: 1.5rem; max-width: 700px; margin: 0 auto;">Découvrez notre gamme iPhone, conçue pour allier puissance, performance et innovation. Explorez les derniers modèles d'iPhone et plongez dans l'univers Apple.</p>
                 <div class="buttons mt-4">
-                    <a href="{% url 'products_by_category' 3 %}" class="btn btn-primary btn-lg shadow-lg" style="padding: 15px 30px;">Voir les produits</a>
+                    <a href="{% url 'products_by_category' 1 %}" class="btn btn-primary btn-lg shadow-lg" style="padding: 15px 30px; transition: background-color 0.3s;">Voir les produits</a>
                 </div>
             </div>
         </div>
     </section>
-{%endblock%}
- 
+
+{% endblock %}

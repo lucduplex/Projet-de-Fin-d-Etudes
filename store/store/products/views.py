@@ -85,35 +85,41 @@ def index(request):
 # Page de détail d'un produit
 def page_detail(request, id):
     product = get_object_or_404(Product, id=id)
-    return render(request, 'page_detail.html', {'product': product})
+    categories = Category.objects.all() 
+    return render(request, 'page_detail.html', {'product': product, 'categories': categories})
 
 # À propos
 def about(request):
-    return render(request, 'about.html')
+    categories = Category.objects.all()
+    return render(request, 'about.html', {'categories': categories})
 
 # Base
 def base(request):
     return render(request, 'base.html')
+   
 
 # Liste des produits
 def listProducts(request):
     products = Product.objects.all()
-    return render(request, 'listProducts.html', {'products': products})
+    categories = Category.objects.all()
+    return render(request, 'listProducts.html', {'categories': categories, 'products': products})
 
 # Résultats de recherche
 def search_results(request):
     query = request.GET.get('query')
+    categories = Category.objects.all()
     if query:
         products = Product.objects.filter(name__icontains=query)  # Assurez-vous d'utiliser le bon nom de champ
     else:
         products = Product.objects.all()
-    return render(request, 'search_results.html', {'products': products, 'query': query})
+    return render(request, 'search_results.html', {'products': products, 'query': query, 'categories': categories})
 
 def cart(request):
     # Initialisation des variables
     cart_items = []
     total_price = 0.0  
     stripe.api_key = settings.STRIPE_PUBLIC_KEY
+    categories = Category.objects.all()
 
     # Si l'utilisateur est authentifié, on récupère son panier actif
     if request.user.is_authenticated:
@@ -149,7 +155,8 @@ def cart(request):
         'cart_items': cart_items,
         'total_price': total_price,
         'total_price_stripe': total_price_stripe,
-        'key': settings.STRIPE_PUBLIC_KEY
+        'key': settings.STRIPE_PUBLIC_KEY,
+        'categories': categories
     })
 
 # Suppression d'un produit du panier
@@ -215,5 +222,6 @@ def register(request):
 
 def products_by_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
+    categories = Category.objects.all()
     products = Product.objects.filter(category=category)
-    return render(request, 'products_by_category.html', {'category': category, 'products': products})
+    return render(request, 'products_by_category.html', {'category': category, 'products': products,'categories': categories})

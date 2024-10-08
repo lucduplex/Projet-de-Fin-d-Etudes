@@ -1,5 +1,6 @@
+/* Section iPad */
 .products-section {
-    background-image: url("../images/ipad.jpg"); /* Chemin relatif correct */
+    background-image: url("../images/ipad.jpg"); /* Image de fond pour la section iPad */
     background-size: cover;
     background-position: center;
     height: 80vh;
@@ -7,42 +8,85 @@
     justify-content: center;
     align-items: center;
     color: black;
+    border-radius: 15px; /* Ajout de bordures arrondies */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Ombre douce */
+    transition: transform 0.3s, box-shadow 0.3s; /* Effets de transition */
 }
 
+/* Section Mac */
 .products-section1 {
-    background-image: url("../images/mac.webp"); /* Chemin relatif correct */
+    background-image: url("../images/mac.webp"); /* Image de fond pour la section Mac */
     background-size: cover;
     background-position: center;
     height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 15px; /* Ajout de bordures arrondies */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Ombre douce */
+    transition: transform 0.3s, box-shadow 0.3s; /* Effets de transition */
 }
 
+/* Section iPhone */
 .main-section {
-    background-image: url("../images/iphone.jpg"); /* Chemin relatif correct */
+    background-image: url("../images/iphone.jpg"); /* Image de fond pour la section iPhone */
     background-size: cover;
     background-position: center;
-    height: 130vh;
+    height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 15px; /* Ajout de bordures arrondies */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée */
+    transition: background-position 0.3s, box-shadow 0.3s; /* Effet de transition sur le fond et l'ombre */
 }
 
+/* Effet de survol sur les cartes produits */
 .product-card:hover {
     transform: scale(1.05);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Ombre plus accentuée */
 }
 
-.product-card:hover .overlay {
+/* Zoom sur l'image au survol */
+.product-card img:hover {
+    transform: scale(1.1);
+}
+
+/* Apparition de l'overlay au survol */
+.product-card .overlay:hover {
     opacity: 1;
 }
 
-.btn-effect {
-    transition: background-color 0.3s, color 0.3s;
+/* Animation de descente pour l'apparition */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.btn-effect:hover {
-    background-color: #000;
-    color: #fff;
+/* Effets de survol pour les sections */
+.products-section:hover, .products-section1:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.main-section:hover {
+    background-position: top center; /* Déplacement de l'image au survol */
+}
+
+/* Animation de montée pour l'apparition */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
