@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-     'products',
+    'products',  # Your custom app
 ]
 
 MIDDLEWARE = [
@@ -44,7 +44,7 @@ ROOT_URLCONF = 'store.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['Templates'],
+        'DIRS': [BASE_DIR / 'Templates'],  # Corrected the path for templates
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -109,11 +109,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/store/static/'
-STATICFILES_DIRS = [BASE_DIR / '/static']
+STATIC_URL = 'store/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static/']  # Fixed the path for static files
 
-
-
+# Media files (for uploaded content)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -122,6 +121,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Clé d'API Stripe
+# Stripe API keys
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', 'pk_live_51PjHx304zvaq9AHT06o23NdIuG95aAHeJQwmuVEVRkMVdwZviN77cA4eQqZ9iI0FYW60LkW537ygOhQ81mmfz5CW008509UFVS')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
