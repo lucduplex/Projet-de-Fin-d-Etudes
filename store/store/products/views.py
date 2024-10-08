@@ -40,7 +40,6 @@ def user_logout(request):
     return redirect('login')  # Redirection vers la page de connexion après déconnexion
 
 
-@login_required
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     cart = request.session.get('cart', {})
