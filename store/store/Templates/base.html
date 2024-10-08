@@ -27,33 +27,11 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-5">
+    <footer class="bg-dark mt-4 text-white py-5">
         <div class="container">
             <section class="footer bg-dark text-white py-5">
                 <div class="container">
                     <div class="row">
-                        <!-- Afficher les sections statistiques seulement si l'utilisateur est administrateur -->
-                        {% if is_admin %}
-                        <!-- Section statistiques -->
-                        <div class="row mb-5">
-                            <div class="col-md-4 text-center mb-4">
-                                <h5 class="fw-bold">Visites Totales</h5>
-                                <p class="display-6" id="total-visits">35,000</p>
-                            </div>
-            
-                            <div class="col-md-4 text-center mb-4">
-                                <h5 class="fw-bold">Produits Vendus</h5>
-                                <p class="display-6" id="total-products-sold">1,250</p>
-                            </div>
-            
-                            <div class="col-md-4 text-center mb-4">
-                                <h5 class="fw-bold">Utilisateurs Inscrits</h5>
-                                <p class="display-6" id="total-users">820</p>
-                            </div>
-                        </div>
-                        {% endif %}
-            
-                        <!-- Section liens rapides et contact (visible pour tous) -->
                         <div class="row">
                             <!-- Section liens rapides -->
                             <div class="col-md-6 mb-3">

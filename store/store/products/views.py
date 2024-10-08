@@ -10,8 +10,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
-from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
+
 
 def user_login(request):
     if request.method == 'POST':
@@ -23,7 +24,17 @@ def user_login(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, f"Bienvenue, {username}!")
-                return redirect('index')  # Redirection vers la page d'accueil après connexion
+
+                # Mettre à jour la session 'cart_count' avec la quantité totale dans CartItem
+                cart = Cart.objects.filter(user=user, is_active=True).first()
+                if cart:
+                    total_quantity = CartItem.objects.filter(cart=cart).aggregate(total_qty=Sum('quantity'))['total_qty']
+                    request.session['cart_count'] = total_quantity if total_quantity else 0
+                else:
+                    request.session['cart_count'] = 0
+                
+                request.session.modified = True
+                return redirect('index')
             else:
                 messages.error(request, "Nom d'utilisateur ou mot de passe incorrect.")
         else:
@@ -34,27 +45,16 @@ def user_login(request):
     return render(request, 'login.html', {'form': form})
 
 
+
 def user_logout(request):
     logout(request)
     request.session.flush()  # Vider la session lors de la déconnexion
     messages.success(request, "Vous êtes déconnecté.")
     return redirect('login')  # Redirection vers la page de connexion après déconnexion
 
-
+@login_required
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    cart = request.session.get('cart', {})
-
-        # Si le produit est déjà dans le panier, on incrémente la quantité
-    if str(product_id) in cart:
-        cart[str(product_id)] += 1
-    else:
-        cart[str(product_id)] = 1
-
-        # Mettre à jour le panier dans la session
-    request.session['cart'] = cart
-    request.session['cart_count'] = sum(cart.values())
-    request.session.modified = True
     user = request.user
 
     # Vérifier si l'utilisateur a déjà un panier actif
@@ -71,7 +71,12 @@ def add_to_cart(request, product_id):
         # Si l'article existe déjà, incrémentez simplement la quantité
         cart_item.quantity += 1
         cart_item.save()
-    
+
+    # Mettre à jour la quantité totale dans le panier et l'enregistrer dans la session
+    total_quantity = CartItem.objects.filter(cart=cart).aggregate(total_qty=Sum('quantity'))['total_qty']
+    request.session['cart_count'] = total_quantity if total_quantity else 0
+    request.session.modified = True
+
     # Rediriger vers une page (par exemple, vers la liste des produits ou la page du panier)
     return redirect('listProducts')  # Rediriger vers votre vue qui affiche le panier
 
@@ -95,10 +100,8 @@ def about(request):
     return render(request, 'about.html', {'categories': categories})
 
 # Base
-@login_required
 def base(request):
-    is_admin = request.user.is_staff  # Vérifie si l'utilisateur est un administrateur
-    return render(request, 'base.html', {'is_admin': is_admin})
+    return render(request, 'base.html')
     
    
 
@@ -163,52 +166,43 @@ def cart(request):
         'categories': categories
     })
 
-# Suppression d'un produit du panier
-def delete_product(request, product_id):
-    product = Product.objects.get(id=product_id)
-    
-    if request.user.is_authenticated:
-        # Si l'utilisateur est authentifié, on récupère son panier
-        cart = Cart.objects.filter(user=request.user, is_active=True).first()
-        if cart:
-            try:
-                cart_item = CartItem.objects.get(cart=cart, product=product)
-                if cart_item.quantity > 1:
-                    cart_item.quantity -= 1
-                    cart_item.save()
-                else:
-                    cart_item.delete()
+@login_required
+def delete_product_of_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    user = request.user
 
-                # Si le panier est vide après suppression, on le désactive
-                if CartItem.objects.filter(cart=cart).count() == 0:
-                    cart.is_active = False
-                    cart.save()
-                    request.session['cart_count'] = 0  # Mettre le compteur à 0
-            except CartItem.DoesNotExist:
-                # Le produit n'existe pas dans le panier
-                pass
-    else:
-        # Gestion pour les utilisateurs non authentifiés via session
-        cart = request.session.get('cart', {})
-        product_id_str = str(product_id)
+    # Récupérer le panier actif de l'utilisateur
+    cart = Cart.objects.filter(user=user, is_active=True).first()
 
-        if product_id_str in cart:
-            if cart[product_id_str] > 1:
-                cart[product_id_str] -= 1
+    if cart:
+        try:
+            # Récupérer l'élément du panier correspondant au produit
+            cart_item = CartItem.objects.get(cart=cart, product=product)
+
+            # Si la quantité est supérieure à 1, la décrémenter
+            if cart_item.quantity > 1:
+                cart_item.quantity -= 1
+                cart_item.save()
             else:
-                del cart[product_id_str]
-            
-            # Mise à jour du compteur du panier dans la session
-            request.session['cart_count'] = sum(cart.values())
+                # Si la quantité est 1 ou moins, supprimer l'élément du panier
+                cart_item.delete()
 
-            # Si le panier est vide après suppression, mettre le compteur à 0
-            if not cart:
-                request.session['cart_count'] = 0
-
-            request.session['cart'] = cart
+            # Mettre à jour la quantité totale dans le panier
+            total_quantity = CartItem.objects.filter(cart=cart).aggregate(total_qty=Sum('quantity'))['total_qty']
+            request.session['cart_count'] = total_quantity if total_quantity else 0
             request.session.modified = True
 
+            # Si le panier est vide, le désactiver
+            if not CartItem.objects.filter(cart=cart).exists():
+                cart.is_active = False
+                cart.save()
+
+        except CartItem.DoesNotExist:
+            # Le produit n'existe pas dans le panier
+            pass
+
     return redirect('cart')
+
 
 
 # Inscription de l'utilisateur
