@@ -29,7 +29,7 @@
 
 /* Section iPhone */
 .main-section {
-    background-image: url("../images/iphone.jpg"); /* Image de fond pour la section iPhone */
+    background-image: url("../images/iphones.jpg"); /* Image de fond pour la section iPhone */
     background-size: cover;
     background-position: center;
     height: 80vh;

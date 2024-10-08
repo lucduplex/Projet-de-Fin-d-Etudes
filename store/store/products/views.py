@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 def user_login(request):
     if request.method == 'POST':
@@ -94,8 +95,11 @@ def about(request):
     return render(request, 'about.html', {'categories': categories})
 
 # Base
+@login_required
 def base(request):
-    return render(request, 'base.html')
+    is_admin = request.user.is_staff  # Vérifie si l'utilisateur est un administrateur
+    return render(request, 'base.html', {'is_admin': is_admin})
+    
    
 
 # Liste des produits
@@ -225,3 +229,9 @@ def products_by_category(request, category_id):
     categories = Category.objects.all()
     products = Product.objects.filter(category=category)
     return render(request, 'products_by_category.html', {'category': category, 'products': products,'categories': categories})
+
+
+
+
+
+   
