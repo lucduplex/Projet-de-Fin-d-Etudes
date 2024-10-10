@@ -203,8 +203,6 @@ def delete_product_of_cart(request, product_id):
 
     return redirect('cart')
 
-
-
 # Inscription de l'utilisateur
 def register(request):
     if request.method == 'POST':
